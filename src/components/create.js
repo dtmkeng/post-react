@@ -43,9 +43,6 @@ Onclick(event){
       //this.state.user===''
        let data = this.state.value
        let log = data.split('\n')
-       //let log2 = log[0].split(' ');
-       //let log3 = log[1].split(' ');
-       //console.log(log.length);
        for(let i=0;i<log.length;i++){
            if(log[i].length>0){
                this.state.time.push(log[i])
