@@ -2,26 +2,45 @@ import React, { Component } from 'react'
 import { connect }from 'react-redux'
 import{SAVE_DATA} from '../action/tableAction'
 import {bindActionCreators} from 'redux'
+import classnames from 'classnames'
 class Create extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             value:'',
             time:[],
             subject:'',
             weight:0,
+            error:{},
+            data:[],
         }
         this.textOnchange =this.textOnchange.bind(this);
         this.handlerTile =this.handlerTile.bind(this);
         this.Onclick =this.Onclick.bind(this);
         this.onselect =this.onselect.bind(this);
+        this.handleChange =this.handleChange.bind(this);
+        this.handleSubmit =this.handleSubmit.bind(this);
 }
+handleChange=(e)=>{
+    if (!!this.state.error[e.target.name]) {
+      let error = Object.assign({}, this.state.error);
+      delete error[e.target.name];
+      this.setState({
+        [e.target.name]: e.target.value,
+        error
+      });
+    } else {
+      this.setState({ [e.target.name]: e.target.value });
+    }
+  } 
 onselect(event){
     this.setState({weight: event.target.value})
 }
-    Onclick(){
+Onclick(event){
+    event.preventDefault();
        //console.log(this.state.value);
        //alert("Hello")
+      //this.state.user===''
        let data = this.state.value
        let log = data.split('\n')
        //let log2 = log[0].split(' ');
@@ -48,14 +67,45 @@ onselect(event){
         this.setState({subject: event.target.value});
        // this.props.SAVE("keng");
     }
-    textOnchange(event){
-        this.setState({value: event.target.value});
+    textOnchange(e){
+        this.setState({ [e.target.name]: e.target.value });
     }
+    handleSubmit(event) {
+        event.preventDefault();
+        let error={};
+        if(this.state.time==='')error.user = "Don't have data";
+        if(this.state.subject==='')error.user = "Don't have data";
+        this.setState({error});
+       // alert("EROOR")
+         const inVali  = Object.keys(error).length===0
+        if(inVali){
+            this.props.SAVE(this.state.time,{title:this.state.subject,weight:this.state.weight});
+        this.setState({time:' ',subject:' '})
+          //this.SignUp();
+   
+          //alert("Helo")
+          
+        }else{
+            //alert("EROO")}
+      }
+     // const doubled = this.props.time.map((number) => number * 2);
+     // console.log(doubled);
+      //console.log(this.props.time);
+    }
+
     render() {
+
+
         return (
+            <div>
+               
                 <div className="field is-grouped " >
-                 <p className="control is-expanded">
-                    <input className="input" type="text" placeholder="รายชื่อวิชา" onChange={this.handlerTile}/>
+                 <p className={classnames('control is-expanded',{error:!!this.state.error.user})}>
+                    <input className="input" type="text" placeholder="รายชื่อวิชา" onChange={this.handleChange}
+                     value={this.state.subject}
+                     name='subject'
+                    />
+                    {this.state.error.user}
                 </p>
                 <p className="control">
                     <span className="select">
@@ -63,6 +113,7 @@ onselect(event){
                      value={this.state.weight} 
                      onChange={this.onselect}
                     >
+                        <option>หน่วยกิต</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -76,18 +127,28 @@ onselect(event){
                      </span>
                 </p>
                 <p className="control">
-                    <textarea className="textarea is-small" placeholder="Tu10:00-11:00" rows="1" onChange={this.textOnchange}/>
+                    <textarea className={classnames('textarea is-small',{error:!!this.state.error.user})} placeholder="Tu10:00-11:00" rows="1" onChange={this.handleChange} 
+                     name='time'
+                     value={this.state.time}
+                    />
                 </p>
                 <p className="control">
-                    <p type="submit" value='Save' className="button is-info" onClick={this.Onclick}>SAVE</p>
+                    <p type="submit" value='Save' className="button is-info" onClick={this.handleSubmit}>SAVE</p>
+                </p>
+                <p>
+                
                 </p>
             </div>
+            <li>วิชา: {this.props.title} จำนวนหน่วยกิต: {this.props.weight} เรียนเวลา: {this.props.time}</li>
+        </div>
         )
     }
 }
 const mapStateToProp=(state)=>{
     return{
-       time:state.Table.time
+       title:state.Table.title,
+       weight:state.Table.weight,
+       time:state.Table.table.time
     }
 }
 const mapDispatchToProp=(dispatct)=>{
