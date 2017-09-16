@@ -3,6 +3,7 @@ import { connect }from 'react-redux'
 import{SAVE_DATA} from '../action/tableAction'
 import {bindActionCreators} from 'redux'
 import classnames from 'classnames'
+import { ref,get } from '../config/firebase'
 class Create extends Component {
     constructor(props){
         super(props);
@@ -38,19 +39,13 @@ onselect(event){
 }
 Onclick(event){
     event.preventDefault();
-       //console.log(this.state.value);
-       //alert("Hello")
-      //this.state.user===''
        let data = this.state.value
        let log = data.split('\n')
        for(let i=0;i<log.length;i++){
            if(log[i].length>0){
                this.state.time.push(log[i])
            }
-           //console.log(log[i]);
-           //log[]
        }
-       
     this.props.SAVE(this.state.time,{title:this.state.subject,weight:this.state.weight});
        // this.state.time.push(log2[0]);
        //this.state.time.push(log3[0])
@@ -59,6 +54,8 @@ Onclick(event){
        //console.log(this.state.time)
        //console.log(this.state.subject)
        //console.log(this.state.weight)
+  
+
     }
     handlerTile(event){
         this.setState({subject: event.target.value});
@@ -76,12 +73,22 @@ Onclick(event){
        // alert("EROOR")
          const inVali  = Object.keys(error).length===0
         if(inVali){
+            //save data
             this.props.SAVE(this.state.time,{title:this.state.subject,weight:this.state.weight});
-        this.setState({time:' ',subject:' '})
-          //this.SignUp();
-   
-          //alert("Helo")
-          
+            this.setState({time:' ',subject:' '});
+            const data ={
+                 title:this.state.subject,
+                 weight:this.state.weight,
+                 time:this.state.time,
+            }
+            //save data to firebase 
+            ref.child(`table`)
+            .push({
+                title:data.title,
+                weight:data.weight,
+                time:data.time
+            });       
+
         }else{
             //alert("EROO")}
       }

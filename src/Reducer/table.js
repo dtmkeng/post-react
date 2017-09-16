@@ -4,7 +4,6 @@ let initaiState ={
     title:'',
     weight:'',
     table:'',
-
 }
 export default function Table(state=initaiState,action){
         switch(action.type){
@@ -17,7 +16,10 @@ export default function Table(state=initaiState,action){
                         time:[...state,action.playload],
                     }
                 }
-                console.log("SAVE SUCCSESS")
+                // console.log("SAVE SUCCSESS "+ state.table.title);
+                // console.log("SAVE SUCCSESS "+ state.table.weight);
+                // console.log("SAVE SUCCSESS "+ state.table.time);
+
             }break;
         default:
         break;
