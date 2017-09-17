@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import {get} from '../config/firebase'
-export default class ListTable extends Component {
+import { connect }from 'react-redux'
+import{SAVE_DATA} from '../action/tableAction'
+import {bindActionCreators} from 'redux'
+ class ListTable extends Component {
     constructor(){
         super();
         this.state={
-            data:[]
+            data:[],
+            todo:[{time:"Tu13",title:"Thai for EE", weight: "5"},{time: "op10", title: "keng op", weight: "3"}]
         }
     this.mapdata = this.mapdata.bind(this);
     }
@@ -31,27 +35,24 @@ mapdata(prop){
       })
 }
 componentDidMount(){  
-    let text=[];
-    get.ref().child('table').orderByKey().once('value',(snapshot)=>{
-    //   let data = snapshot.val();
-    //   let datakeys = Object.keys(data)
-    //   console.log(datakeys.length)
-    //   console.log(datakeys[0])
-    //   for(let i =0;i<datakeys.length;i++){
-    //        console.log(data[datakeys[i]]);
-    //       // this.state.data.push(data[datakeys[i]])
-    //       text.concat(data[datakeys[i]])
-    //   }
-    snapshot.forEach((childSnapshot) => {
-        text.push(childSnapshot.val());
-      })
+    get.ref().child('table').once('value',(snapshot)=>{
+        let Todo=[]
+        let that =this;
+        snapshot.forEach((data)=>{
+            //console.log(data.val())
+            let todo={
+                title:data.val().title,
+                time:data.val().time,
+                weight:data.val().weight
+            }
+            Todo.push(todo);
+            that.setState({todo:Todo})
+        })
   })
-  this.setState({data:text})
 }
     render() {
-        const data =[{time:"Tu13",title:"Thai for EE", weight: "5"},{time: "op10", title: "keng op", weight: "3"}];
-       /// console.log(data)
-        var listItems = data.map(function(d, idx){
+        //console.log(data)
+        var listItems = this.state.todo.map(function(d, idx){
           return ( <div>
                 <table className='table is-fullwidth'>
                     <thead>
@@ -70,14 +71,28 @@ componentDidMount(){
                 </table>
                  </div>)
         })
-       /// console.log(this.state.data);
+
         return (
           <div>
+ 
                <h1 className='title is-1'>Table List</h1>
                <table className='table is-fullwidth'>  
                 </table> {listItems}
-             {/* //{this.mapdata(this.state.data)} */}
           </div>
+         
         );
     }
 }
+const mapStateToProp=(state)=>{
+    return{
+       title:state.Table.table,
+       weight:state.Table.weight,
+       time:state.Table.table.time,
+    }
+}
+const mapDispatchToProp=(dispatct)=>{
+  return {
+      SAVE:bindActionCreators(SAVE_DATA,dispatct),
+    }
+  }
+  export default connect(mapStateToProp,mapDispatchToProp)(ListTable);

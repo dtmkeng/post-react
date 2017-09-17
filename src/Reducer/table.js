@@ -3,13 +3,14 @@ let initaiState ={
     time:[],
     title:'',
     weight:'',
-    table:'',
+    table:[],
 }
 export default function Table(state=initaiState,action){
         switch(action.type){
             case "SAVE_TABLE":{
                 state={
                     ...state,
+                   
                     table:{
                         title:state.title=action.insert.title,
                         weight:state.weight=action.insert.weight,
