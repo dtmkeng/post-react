@@ -3,7 +3,7 @@ import { connect }from 'react-redux'
 import{SAVE_DATA} from '../action/tableAction'
 import {bindActionCreators} from 'redux'
 import classnames from 'classnames'
-import { ref,get } from '../config/firebase'
+import { ref} from '../config/firebase'
 class Create extends Component {
     constructor(props){
         super(props);
@@ -87,6 +87,8 @@ Onclick(event){
                 title:data.title,
                 weight:data.weight,
                 time:data.time
+            }).then(()=>{
+                //alert("Save data");
             });       
 
         }else{
@@ -98,11 +100,8 @@ Onclick(event){
     }
 
     render() {
-
-
         return (
             <div>
-               
                 <div className="field is-grouped " >
                  <p className={classnames('control is-expanded',{error:!!this.state.error.user})}>
                     <input className="input" type="text" placeholder="รายชื่อวิชา" onChange={this.handleChange}
