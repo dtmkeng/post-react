@@ -4,6 +4,7 @@ import{SAVE_DATA} from '../action/tableAction'
 import {bindActionCreators} from 'redux'
 import classnames from 'classnames'
 import { ref} from '../config/firebase'
+import ListTable from './listTable';
 class Create extends Component {
     constructor(props){
         super(props);
@@ -54,7 +55,6 @@ Onclick(event){
        //console.log(this.state.time)
        //console.log(this.state.subject)
        //console.log(this.state.weight)
-  
 
     }
     handlerTile(event){
@@ -75,18 +75,20 @@ Onclick(event){
         if(inVali){
             //save data
             this.props.SAVE(this.state.time,{title:this.state.subject,weight:this.state.weight});
-            this.setState({time:' ',subject:' '});
+            this.setState({time:' ',subject:' ',weight:'หน่วยกิต'});
             const data ={
                  title:this.state.subject,
                  weight:this.state.weight,
                  time:this.state.time,
+
             }
             //save data to firebase 
             ref.child(`table`)
             .push({
                 title:data.title,
                 weight:data.weight,
-                time:data.time
+                time:data.time,
+                checked: false,
             }).then(()=>{
                 //alert("Save data");
             });       
@@ -143,6 +145,8 @@ Onclick(event){
                 </p>
             </div>
             <li>วิชา: {this.props.title} จำนวนหน่วยกิต: {this.props.weight} เรียนเวลา: {this.props.time}</li>
+            {/* <br/><br/>
+            <ListTable/> */}
         </div>
         )
     }
