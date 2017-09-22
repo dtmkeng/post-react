@@ -1,5 +1,5 @@
 import React from 'react';
-import {tasksRef,get} from '../config/firebase'
+import {tasksRef} from '../config/firebase'
 
 class TaskListItem extends React.Component {
     state={
@@ -25,33 +25,11 @@ deleteTask = () => {
               this.setState({done:false});
               this.setState({class:''})
          });
-    }, 1000);
+    }, 300);
     this.setState({done:true});
   };
-  
   render() {
     const { task } = this.props;
-    
-    let buttonRight;
-    if (task.checked) {
-      buttonRight = (
-        <button onClick={this.deleteTask}>
-          <i className="material-icons icon-red">delete</i>
-        </button>
-      );
-    } else if (task.starred) {
-      buttonRight = (
-        <button onClick={this.toggleStarred}>
-          <i className="material-icons icon-yellow">star</i>
-        </button>
-      );
-    } else {
-      buttonRight = (
-        <button onClick={this.toggleStarred}>
-          <i className="material-icons icon-grey">star_border</i>
-        </button>
-      );
-    }
     let delets =(
         <div className={'is-loading'}></div>
     )
@@ -63,7 +41,7 @@ deleteTask = () => {
         <p className="card-header-title">
         COURSE NAME: {task.title}
         </p>
-        <a href="#" className="card-header-icon" aria-label="more options">
+        <a  className="card-header-icon" aria-label="more options">
         <span className="icon">
             <i className="fa fa-angle-down" aria-hidden="true"></i>
         </span>
@@ -86,7 +64,7 @@ deleteTask = () => {
         </div>
     </div>
     <footer className="card-footer">
-        <a href="#" className="card-footer-item">Edit</a>
+        <a  className="card-footer-item">Edit</a>
         <a  onClick={this.deleteTask} className="card-footer-item">Delete</a>
    </footer>
 </div>

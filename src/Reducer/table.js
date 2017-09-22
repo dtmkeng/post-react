@@ -4,10 +4,11 @@ let initaiState ={
     title:'',
     weight:'',
     table:[],
+    task:[]
 }
 export default function Table(state=initaiState,action){
         switch(action.type){
-            case "SAVE_TABLE" :{
+            case "SAVE_TABLE" :
                 state={
                     ...state,
                     table:{
@@ -16,10 +17,16 @@ export default function Table(state=initaiState,action){
                         time:[...state,action.playload],
                     }
                 }
-            }break;
+            break;
+            case "GET_DATA":
+             state={
+                 ...state,
+                  task:[...state,action.playload]
+             }
+             break; 
         default:
         break;
-    }
+     }
     return state;
 }
 /*

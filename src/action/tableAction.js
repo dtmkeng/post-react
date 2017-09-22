@@ -5,3 +5,9 @@ export function SAVE_DATA(data,obj){
         insert:obj
     }
 }
+export function GET_DATA(data){
+    return{
+        type:'GET_DATA',
+        playload:data
+    }
+}
