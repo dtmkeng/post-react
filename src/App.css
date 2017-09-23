@@ -111,3 +111,14 @@ table, th, td {
 .icon-yellow:hover {
   color: #dacb07;
 }
+.cell_row{
+  width: 40px;
+  height: 40px;
+  font-size: 15px;
+  background-color: #ff8080;
+  border-style: solid;
+  border-width: 2px;
+}
+.title-table{
+  padding-top: 8px;
+}

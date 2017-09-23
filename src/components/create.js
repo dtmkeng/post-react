@@ -4,6 +4,7 @@ import{SAVE_DATA,GET_DATA} from '../action/tableAction'
 import {bindActionCreators} from 'redux'
 import classnames from 'classnames'
 import { ref,get} from '../config/firebase'
+import RenderTaber from './randerTable'
 class Create extends Component {
     constructor(){
         super();
@@ -51,9 +52,8 @@ Onclick(event){
        //console.log(this.state.time)
        //console.log(this.state.subject)
        //console.log(this.state.weight)
-
-    }
-    handlerTile(event){
+}
+ handlerTile(event){
         this.setState({subject: event.target.value});
        // this.props.SAVE("keng");
     }
@@ -69,7 +69,13 @@ Onclick(event){
          const inVali  = Object.keys(error).length === 0
         if(inVali){
             //save data
-            console.log(this.state.time)
+            let time = this.state.time
+            time = time.trim();
+            if(time!==" "){
+            let log = time.split('\n')
+            console.log(log);
+            }
+            console.log(time)
             this.props.SAVE(this.state.time,{title:this.state.subject,weight:this.state.weight});
             this.setState({time:' ',subject:' ',weight:'หน่วยกิต'});
             const task ={
@@ -93,7 +99,7 @@ Onclick(event){
             });       
 
         }else{
-               //alert("EROO")}
+                 //alert("EROO")}
       }
     }
 componentDidMount(){  
@@ -114,9 +120,14 @@ componentDidMount(){
       }
     render() {
         //test rander inster 
-        const listItems = this.state.data.map((d, idx) =>
-          <li key={idx}>{d.title}</li>
-        );
+        // const listItems = this.state.data.map((d, idx) =>{
+        //     if(d.title==='keng'){
+        //       return <li key={idx} style={{color:'red',marginRight:50}}>{d.title}</li>
+        //     }else{
+        //       return <li key={idx} style={{color:'#99bbff',marginRight:100}}  >{d.title}</li>
+        //     }
+        //   }  
+        // );
         return (
             <div> <h1 className='title is-1'>Study Plan schedule</h1>
                 <form className="field is-grouped " onSubmit={this.handleSubmit} >
@@ -164,7 +175,15 @@ componentDidMount(){
                 </p>
             </form>
             <li>วิชา: {this.props.title} จำนวนหน่วยกิต: {this.props.weight} เรียนเวลา: {this.props.time}</li>
-            {listItems}
+            {/* {listItems} */}  
+            <RenderTaber date='Date'/>
+            <RenderTaber date='Mon'/>
+            <RenderTaber date='Tue'/>
+            <RenderTaber date='Wed'/>
+            <RenderTaber date='Thu'/>
+            <RenderTaber date='Fri'/>
+            <RenderTaber date='Sat'/>
+            <RenderTaber date='Son'/>
         </div>
         )
     }
