@@ -4,7 +4,8 @@ import{SAVE_DATA,GET_DATA} from '../action/tableAction'
 import {bindActionCreators} from 'redux'
 import classnames from 'classnames'
 import { ref,get} from '../config/firebase'
-import RenderTaber from './randerTable'
+// import RenderTaber from './randerTable'
+import Table_layout from './Table_layout'
 class Create extends Component {
     constructor(){
         super();
@@ -15,7 +16,6 @@ class Create extends Component {
             weight:0,
             error:{},
             data:[],
-
         }
         this.textOnchange =this.textOnchange.bind(this);
         this.handlerTile =this.handlerTile.bind(this);
@@ -176,14 +176,7 @@ componentDidMount(){
             </form>
             <li>วิชา: {this.props.title} จำนวนหน่วยกิต: {this.props.weight} เรียนเวลา: {this.props.time}</li>
             {/* {listItems} */}  
-            <RenderTaber date='Date'/>
-            <RenderTaber date='Mon'/>
-            <RenderTaber date='Tue'/>
-            <RenderTaber date='Wed'/>
-            <RenderTaber date='Thu'/>
-            <RenderTaber date='Fri'/>
-            <RenderTaber date='Sat'/>
-            <RenderTaber date='Son'/>
+             <Table_layout/>
         </div>
         )
     }
