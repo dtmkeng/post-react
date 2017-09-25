@@ -16,7 +16,7 @@ componentDidMount(){
   get.ref().child('table').once('value',(snapshot)=>{
     let task=[]
     snapshot.forEach(shot => {
-       console.log(shot.val())
+       //console.log(shot.val())
        task.push({ ...shot.val(), key: shot.key });
     });
     this.setState({ task:this.state.task.concat(task), tasksLoading: false });

@@ -29,6 +29,7 @@ deleteTask = () => {
     this.setState({done:true});
   };
   render() {
+      console.log(this.props.task)
     const { task } = this.props;
     let delets =(
         <div className={'is-loading'}></div>
